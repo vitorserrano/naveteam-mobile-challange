@@ -38,6 +38,9 @@
     "global-require": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "import/prefer-default-export": "off",
-    "no-unused-expressions": ["error", { "allowTaggedTemplates": true }]
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "no-unused-expressions": ["error", { "allowTaggedTemplates": true }],
+    "@typescript-eslint/ban-types": "off"
   }
 }
