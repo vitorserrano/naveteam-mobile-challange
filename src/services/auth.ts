@@ -6,10 +6,13 @@ interface Response {
   token: string;
 }
 
-export const signIn = async (): Promise<Response> => {
+export const signIn = async (
+  email: string,
+  password: string,
+): Promise<Response> => {
   const credentials = {
-    email: 'vitor@nave.rs',
-    password: '123456',
+    email,
+    password,
   };
 
   const { data } = await api.post('/users/login', credentials);
