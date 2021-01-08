@@ -13,7 +13,7 @@ interface IAuthContext {
   signed: boolean;
   user: IUser | null;
   loading: boolean;
-  signIn(): Promise<void>;
+  signIn(email: string, password: string): Promise<void>;
   signOut(): void;
 }
 
@@ -32,29 +32,27 @@ export const AuthProvider: React.FC = ({ children }) => {
       setUser(JSON.parse(storagedUser));
     }
 
-    setLoading(false);
+    setTimeout(() => setLoading(false), 2000);
   };
 
   useEffect(() => {
     loadStoragedData();
   }, []);
 
-  const signIn = async () => {
-    const response = await auth.signIn();
-
-    const { id, email, token } = response;
+  const signIn = async (email: string, password: string) => {
+    const response = await auth.signIn(email, password);
 
     const signedUser = {
-      id,
-      email,
+      id: response.id,
+      email: response.email,
     };
 
     setUser(signedUser);
 
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    api.defaults.headers.Authorization = `Bearer ${response.token}`;
 
     await AsyncStorage.setItem('@Navedex:user', JSON.stringify(signedUser));
-    await AsyncStorage.setItem('@Navedex:token', token);
+    await AsyncStorage.setItem('@Navedex:token', response.token);
   };
 
   const signOut = async () => {

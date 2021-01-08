@@ -9,7 +9,6 @@ const Navers: React.FC = () => {
 
   const handleLoadNavers = async () => {
     const { data } = await api.get('/navers');
-    console.log(data);
   };
 
   handleLoadNavers();
