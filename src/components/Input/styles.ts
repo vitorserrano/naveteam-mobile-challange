@@ -25,7 +25,7 @@ export const DefaultInput = styled.TextInput.attrs(({ theme }) => ({
     font-family: ${theme.fonts.light};
     border: 1px solid
       ${isError ? theme.colors.error : theme.colors.primaryLight};
-    color: ${theme.colors.placeholder};
+    color: ${theme.colors.primary};
   `}
 
   align-self: stretch;
