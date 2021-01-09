@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { TextInput, Alert, ActivityIndicator } from 'react-native';
+import { TextInput } from 'react-native';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -7,8 +7,11 @@ import * as Yup from 'yup';
 import { useAuth } from '../../context/auth';
 
 import Input from '../../components/Input';
+import Modal from '../../components/Modal';
+import Loader from '../../components/Loader';
 
 import blackLogo from '../../assets/img/blackLogo.png';
+import { colors } from '../../theme/colors';
 import { Container, Logo, Button, Title } from './styles';
 
 interface IForm {
@@ -21,8 +24,16 @@ type User = {
   password: string;
 };
 
+interface IModal {
+  isVisible: boolean;
+  title?: string;
+  message?: string;
+}
+
 const SignIn: React.FC = () => {
   const initialValues: IForm = { email: '', password: '' };
+
+  const [modal, setModal] = useState<IModal>({ isVisible: false });
 
   const [loading, setLoading] = useState(false);
 
@@ -44,9 +55,13 @@ const SignIn: React.FC = () => {
       const { email, password } = values;
 
       await signIn(email, password);
-      setLoading(false);
     } catch (error) {
-      Alert.alert('Credenciais incorretas');
+      setModal({
+        isVisible: true,
+        title: 'Erro',
+        message: 'Credendicais incorretas!',
+      });
+      setLoading(false);
     }
   };
 
@@ -81,16 +96,23 @@ const SignIn: React.FC = () => {
               {...formik}
             />
 
-            <Button onPress={formik.handleSubmit} disabled={loading}>
-              {loading ? (
-                <ActivityIndicator size="small" color="#fff" />
-              ) : (
-                <Title>Entrar</Title>
-              )}
+            <Button
+              onPress={formik.handleSubmit}
+              disabled={loading || !formik.isValid}
+            >
+              {loading && <Loader size={22} color={colors.secondary} />}
+              {!loading && <Title>Entrar</Title>}
             </Button>
           </>
         )}
       </Formik>
+
+      <Modal
+        isVisible={modal.isVisible}
+        title={modal.title}
+        message={modal.message}
+        onRequestClose={() => setModal({ isVisible: false })}
+      />
     </Container>
   );
 };

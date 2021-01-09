@@ -14,7 +14,9 @@ export const Logo = styled.Image`
   margin-bottom: 24px;
 `;
 
-export const Button = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.4,
+})`
   margin-top: 40px;
   height: 40px;
   padding: 8px;
