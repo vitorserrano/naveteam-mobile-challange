@@ -35,12 +35,14 @@
     "react/prop-types": 0,
     "react/jsx-filename-extension": 0,
     "react/jsx-props-no-spreading": 0,
+    "react/display-name": "off",
     "global-require": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "import/prefer-default-export": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
     "no-unused-expressions": ["error", { "allowTaggedTemplates": true }],
-    "@typescript-eslint/ban-types": "off"
+    "@typescript-eslint/ban-types": "off",
+    "camelcase": "off"
   }
 }
