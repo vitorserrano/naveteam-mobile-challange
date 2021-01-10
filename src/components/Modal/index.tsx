@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Feather from 'react-native-vector-icons/Feather';
+
+import { colors } from '../../theme/colors';
 
 import {
   ModalStatusBar,
@@ -10,6 +12,9 @@ import {
   Header,
   Title,
   Description,
+  Footer,
+  Button,
+  ButtonTitle,
 } from './styles';
 
 interface Props {
@@ -17,6 +22,7 @@ interface Props {
   title?: string;
   message?: string;
   type?: string;
+  onSubmit?(): void;
   onRequestClose(): void;
 }
 
@@ -25,13 +31,14 @@ const Modal: React.FC<Props> = ({
   title,
   message,
   type,
+  onSubmit,
   onRequestClose,
 }) => {
-  const [isModalVisible, setIsModalVisible] = useState(isVisible);
-
   return (
     <>
-      <ModalStatusBar />
+      <ModalStatusBar
+        backgroundColor={isVisible ? colors.transparent : colors.secondary}
+      />
 
       <Wrapper visible={isVisible}>
         <Container>
@@ -49,7 +56,17 @@ const Modal: React.FC<Props> = ({
 
             <Description>{message}</Description>
 
-            {/* <Footer></Footer> */}
+            {type === 'delete' && (
+              <Footer>
+                <Button onPress={() => onRequestClose()} transparent>
+                  <ButtonTitle dark>Cancelar</ButtonTitle>
+                </Button>
+
+                <Button onPress={onSubmit}>
+                  <ButtonTitle>Excluir</ButtonTitle>
+                </Button>
+              </Footer>
+            )}
           </Content>
         </Container>
       </Wrapper>

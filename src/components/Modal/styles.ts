@@ -1,9 +1,16 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
-export const ModalStatusBar = styled.StatusBar.attrs(({ theme }) => ({
-  backgroundColor: theme.colors.transparent,
-  barStyle: 'light-content',
-}))``;
+interface IButton {
+  transparent?: boolean;
+}
+
+interface IButtonTitle {
+  dark?: boolean;
+}
+
+export const ModalStatusBar = styled.StatusBar.attrs({
+  barStyle: 'dark-content',
+})``;
 
 export const Wrapper = styled.Modal.attrs({
   transparent: true,
@@ -44,5 +51,38 @@ export const Description = styled.Text`
   color: ${({ theme }) => theme.colors.primary};
   font-weight: 600;
   font-size: 16px;
+  line-height: 24px;
+`;
+
+export const Footer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
+`;
+
+export const Button = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.4,
+})<IButton>`
+  ${({ theme, transparent }) => css`
+    background: ${transparent ? theme.colors.secondary : theme.colors.primary};
+    border: 1px solid ${theme.colors.primary};
+  `}
+
+  justify-content: center;
+  align-items: center;
+  width: 142px;
+  height: 40px;
+  padding: 8px;
+`;
+
+export const ButtonTitle = styled.Text<IButtonTitle>`
+  ${({ theme, dark }) => css`
+    font-family: ${theme.fonts.semibold};
+    color: ${dark ? theme.colors.primary : theme.colors.secondary};
+  `}
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
   line-height: 24px;
 `;
