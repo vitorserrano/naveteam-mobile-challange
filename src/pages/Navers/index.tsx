@@ -1,12 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Text, Image } from 'react-native';
 
-import { useAuth } from '../../context/auth';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 import api from '../../services/api';
 
 import Loader from '../../components/Loader';
+import Modal from '../../components/Modal';
+
+import {
+  LoaderContainer,
+  Container,
+  Header,
+  Title,
+  Button,
+  ButtonTitle,
+  Content,
+  NaversList,
+  Image,
+  Description,
+  Name,
+  JobRole,
+  Actions,
+} from './styles';
 
 import { colors } from '../../theme/colors';
+
+interface Params {
+  isDeletedNaverDetail: boolean;
+}
 
 interface INavers {
   id: string;
@@ -19,64 +42,143 @@ interface INavers {
   url: string;
 }
 
+interface IModal {
+  isVisible: boolean;
+  title?: string;
+  message?: string;
+  type?: string;
+  onSubmit?(): void;
+}
+
 const Navers: React.FC = () => {
-  const { signOut } = useAuth();
+  const navigation = useNavigation();
+  const route = useRoute();
+  const routeParams = route.params as Params;
 
   const [navers, setNavers] = useState<INavers[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState<IModal>({ isVisible: false });
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleLoadNavers = async () => {
-    setLoading(true);
-
     try {
       const { data } = await api.get('/navers');
 
       setNavers(data);
     } catch (error) {
-      console.log(error);
+      setModal({
+        isVisible: true,
+        title: 'Erro',
+        message: 'Não foi possível carregar os navers.',
+      });
     }
 
-    // setTimeout(() => setLoading(false), 2000);
     setLoading(false);
+  };
+
+  const handleDeleteNaver = async (id: string) => {
+    setModal({ isVisible: false });
+    setIsDeleted(true);
+
+    try {
+      await api.delete(`/navers/${id}`);
+
+      setModal({
+        isVisible: true,
+        title: 'Naver excluído',
+        message: 'Naver excluído com sucesso',
+      });
+    } catch (error) {
+      setModal({
+        isVisible: true,
+        title: 'Erro',
+        message: 'Não foi possível excluir esse naver',
+      });
+    }
+
+    setIsDeleted(false);
+  };
+
+  const handleNavigateToNaverDetail = (id: string) => {
+    navigation.navigate('NaverDetail', { id });
   };
 
   useEffect(() => {
     handleLoadNavers();
-  }, []);
-
-  const handleSignOut = () => {
-    signOut();
-  };
+  }, [isDeleted, route]);
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <LoaderContainer>
         <Loader size={60} color={colors.primary} />
-      </View>
+      </LoaderContainer>
     );
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingTop: 28,
-      }}
-    >
-      {navers.map(naver => (
-        <View key={naver.id}>
-          <Image
-            source={{ uri: naver.url }}
-            style={{ width: 170, height: 170 }}
-          />
-          <Text style={{ marginTop: 8 }}>{naver.name}</Text>
-          <Text style={{ marginTop: 2 }}>{naver.job_role}</Text>
-        </View>
-      ))}
-    </View>
+    <Container>
+      <Header>
+        <Title>Navers</Title>
+
+        <Button>
+          <ButtonTitle>Adicionar naver</ButtonTitle>
+        </Button>
+      </Header>
+
+      <NaversList<any>
+        data={navers}
+        keyExtractor={(naver: INavers) => String(naver.id)}
+        howsVerticalScrollIndicator
+        onEndReached={handleLoadNavers}
+        onEndReachedThreshold={0.4}
+        numColumns={2}
+        columnWrapperStyle={{
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+        }}
+        renderItem={({ item: naver }: any) => (
+          <Content onPress={() => handleNavigateToNaverDetail(naver.id)}>
+            <Image source={{ uri: naver.url }} />
+
+            <Description>
+              <Name>{naver.name}</Name>
+              <JobRole>{naver.job_role}</JobRole>
+            </Description>
+
+            <Actions>
+              <FontAwesome5
+                name="trash"
+                size={18}
+                color={colors.primary}
+                onPress={() =>
+                  setModal({
+                    isVisible: true,
+                    title: 'Excluir naver',
+                    message: 'Tem certeza que deseja excluir este naver?',
+                    type: 'delete',
+                    onSubmit: () => handleDeleteNaver(naver.id),
+                  })
+                }
+              />
+              <FontAwesome5
+                name="pencil-alt"
+                size={18}
+                color={colors.primary}
+              />
+            </Actions>
+          </Content>
+        )}
+      />
+
+      <Modal
+        isVisible={modal.isVisible}
+        title={modal.title}
+        message={modal.message}
+        type={modal.type}
+        onSubmit={modal.onSubmit}
+        onRequestClose={() => setModal({ isVisible: false })}
+      />
+    </Container>
   );
 };
 
