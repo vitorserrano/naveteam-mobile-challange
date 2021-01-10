@@ -3,8 +3,6 @@ import { TextInput } from 'react-native';
 
 import { Label, DefaultInput, ErrorMessage } from './styles';
 
-import { colors } from '../../theme/colors';
-
 type InputProps = React.ComponentProps<typeof DefaultInput>;
 
 const Input: React.ForwardRefRenderFunction<TextInput, InputProps> = (

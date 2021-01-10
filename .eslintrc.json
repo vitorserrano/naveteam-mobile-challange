@@ -43,6 +43,7 @@
     "import/extensions": "off",
     "no-unused-expressions": ["error", { "allowTaggedTemplates": true }],
     "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "camelcase": "off"
   }
 }
