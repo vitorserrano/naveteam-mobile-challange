@@ -9,8 +9,7 @@ import Navers from '../pages/Navers';
 import NaverDetail from '../pages/NaverDetail';
 import FormNaver from '../pages/FormNaver';
 
-import Drawer from '../components/Drawer';
-import Logo from '../components/Logo';
+import { Drawer, Logo } from '../components';
 
 const AppDrawer = createDrawerNavigator();
 const AppStack = createStackNavigator();
@@ -71,7 +70,7 @@ const AppRoutes: React.FC = () => (
             name="arrow-back-ios"
             color="#212121"
             size={22}
-            onPress={() => navigation.navigate('Navers')}
+            onPress={() => navigation.goBack()}
           />
         ),
       })}
@@ -100,7 +99,7 @@ const AppRoutes: React.FC = () => (
             name="arrow-back-ios"
             color="#212121"
             size={22}
-            onPress={() => navigation.navigate('Navers')}
+            onPress={() => navigation.goBack()}
           />
         ),
       })}

@@ -6,11 +6,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import api from '../../services/api';
 
-import Loader from '../../components/Loader';
-import Modal from '../../components/Modal';
+import { Loader, Modal } from '../../components';
 
 import {
-  LoaderContainer,
   Container,
   Header,
   Title,
@@ -25,41 +23,13 @@ import {
   Actions,
 } from './styles';
 
+import { INaver, INaverEdit, IModal } from '../../helpers/Interfaces';
 import { colors } from '../../theme/colors';
-
-interface INavers {
-  id: string;
-  name: string;
-  admission_date: string;
-  job_role: string;
-  user_id: string;
-  project: string;
-  birthdate: string;
-  url: string;
-}
-
-interface INaverEdit {
-  id?: string;
-  name?: string;
-  admission_date?: string;
-  job_role?: string;
-  project?: string;
-  birthdate?: string;
-  url?: string;
-}
-
-interface IModal {
-  isVisible: boolean;
-  title?: string;
-  message?: string;
-  type?: string;
-  onSubmit?(): void;
-}
 
 const Navers: React.FC = () => {
   const navigation = useNavigation();
 
-  const [navers, setNavers] = useState<INavers[]>([]);
+  const [navers, setNavers] = useState<INaver[]>([]);
   const [modal, setModal] = useState<IModal>({ isVisible: false });
   const [loading, setLoading] = useState(true);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -122,11 +92,7 @@ const Navers: React.FC = () => {
   }, [isDeleted, navigation]);
 
   if (loading) {
-    return (
-      <LoaderContainer>
-        <Loader size={60} color={colors.primary} />
-      </LoaderContainer>
-    );
+    return <Loader size={60} color={colors.primary} container />;
   }
 
   return (
@@ -141,7 +107,7 @@ const Navers: React.FC = () => {
 
       <NaversList<any>
         data={navers}
-        keyExtractor={(naver: INavers) => String(naver.id)}
+        keyExtractor={(naver: INaver) => String(naver.id)}
         howsVerticalScrollIndicator
         onEndReached={handleLoadNavers}
         onEndReachedThreshold={0.5}

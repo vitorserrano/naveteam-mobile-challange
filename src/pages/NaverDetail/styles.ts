@@ -1,18 +1,6 @@
 import styled, { css } from 'styled-components/native';
 
-interface IButton {
-  transparent?: boolean;
-}
-
-interface IButtonTitle {
-  dark?: boolean;
-}
-
-export const LoaderContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
+import { IButtonStyled, IButtonTitleStyled } from './interface';
 
 export const Wrapper = styled.ScrollView.attrs({
   contentContainerStyle: {
@@ -73,7 +61,7 @@ export const Footer = styled.View`
 
 export const Button = styled.TouchableOpacity.attrs({
   activeOpacity: 0.4,
-})<IButton>`
+})<IButtonStyled>`
   ${({ theme, transparent }) => css`
     background: ${transparent ? theme.colors.secondary : theme.colors.primary};
     border: 1px solid ${theme.colors.primary};
@@ -87,7 +75,7 @@ export const Button = styled.TouchableOpacity.attrs({
   padding: 8px;
 `;
 
-export const ButtonTitle = styled.Text<IButtonTitle>`
+export const ButtonTitle = styled.Text<IButtonTitleStyled>`
   ${({ theme, dark }) => css`
     font-family: ${theme.fonts.semibold};
     color: ${dark ? theme.colors.primary : theme.colors.secondary};

@@ -6,29 +6,14 @@ import * as Yup from 'yup';
 
 import { useAuth } from '../../context/auth';
 
-import Input from '../../components/Input';
-import Modal from '../../components/Modal';
-import Loader from '../../components/Loader';
+import { Input, Modal, Loader, Button } from '../../components';
 
-import blackLogo from '../../assets/img/blackLogo.png';
+import blackLogoLogoImage from '../../assets/img/blackLogo.png';
+import { Container, Logo } from './styles';
+
+import { IModal } from '../../helpers/Interfaces';
+import { IForm, User } from './interface';
 import { colors } from '../../theme/colors';
-import { Container, Logo, Button, Title } from './styles';
-
-interface IForm {
-  email: string;
-  password: string;
-}
-
-type User = {
-  email: string;
-  password: string;
-};
-
-interface IModal {
-  isVisible: boolean;
-  title?: string;
-  message?: string;
-}
 
 const SignIn: React.FC = () => {
   const initialValues: IForm = { email: '', password: '' };
@@ -67,7 +52,7 @@ const SignIn: React.FC = () => {
 
   return (
     <Container>
-      <Logo source={blackLogo} />
+      <Logo source={blackLogoLogoImage} />
 
       <Formik
         initialValues={initialValues}
@@ -97,12 +82,11 @@ const SignIn: React.FC = () => {
             />
 
             <Button
+              isLoading={loading}
+              title="Entrar"
               onPress={formik.handleSubmit}
               disabled={loading || !formik.isValid}
-            >
-              {loading && <Loader size={22} color={colors.secondary} />}
-              {!loading && <Title>Entrar</Title>}
-            </Button>
+            />
           </>
         )}
       </Formik>

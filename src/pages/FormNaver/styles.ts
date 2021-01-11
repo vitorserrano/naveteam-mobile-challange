@@ -21,32 +21,5 @@ export const Title = styled.Text`
 
 export const Form = styled.ScrollView`
   padding: 0 16px;
-`;
-
-export const Button = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.4,
-})`
-  ${({ theme }) => css`
-    background: ${theme.colors.primary};
-    border: 1px solid ${theme.colors.primary};
-  `}
-
-  align-self: stretch;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 8px;
-  margin: 40px 0;
-`;
-
-export const ButtonTitle = styled.Text`
-  ${({ theme }) => css`
-    font-family: ${theme.fonts.semibold};
-    color: ${theme.colors.secondary};
-  `}
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 24px;
-  margin-left: 11px;
+  margin-bottom: 40px;
 `;

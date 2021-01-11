@@ -5,13 +5,11 @@ import moment from 'moment';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import Loader from '../../components/Loader';
-import Modal from '../../components/Modal';
+import { Loader, Modal } from '../../components';
 
 import api from '../../services/api';
 
 import {
-  LoaderContainer,
   Wrapper,
   Container,
   Image,
@@ -23,45 +21,14 @@ import {
   ButtonTitle,
 } from './styles';
 
+import { INaver, IModal } from '../../helpers/Interfaces';
+import { IParams } from './interface';
 import { colors } from '../../theme/colors';
-
-interface Params {
-  id: string;
-}
-
-interface INaver {
-  id: string;
-  name: string;
-  admission_date: string;
-  job_role: string;
-  user_id: string;
-  project: string;
-  birthdate: string;
-  url: string;
-}
-
-interface INaverEdit {
-  id?: string;
-  name?: string;
-  admission_date?: string;
-  job_role?: string;
-  project?: string;
-  birthdate?: string;
-  url?: string;
-}
-
-interface IModal {
-  isVisible: boolean;
-  title?: string;
-  message?: string;
-  type?: string;
-  onSubmit?(): void;
-}
 
 const NaverDetail: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const routeParams = route.params as Params;
+  const routeParams = route.params as IParams;
 
   const [naver, setNaver] = useState<INaver>({} as INaver);
   const [modal, setModal] = useState<IModal>({ isVisible: false });
@@ -115,7 +82,7 @@ const NaverDetail: React.FC = () => {
     }
   };
 
-  const handleNavigateToFormNaver = (currentNaver: INaverEdit) => {
+  const handleNavigateToFormNaver = (currentNaver: INaver) => {
     navigation.navigate('FormNaver', currentNaver);
   };
 
@@ -125,14 +92,16 @@ const NaverDetail: React.FC = () => {
 
   useEffect(() => {
     handleShowNaver();
+
+    const unsubscribe = navigation.addListener('focus', () => {
+      handleShowNaver();
+    });
+
+    return unsubscribe;
   }, [routeParams.id]);
 
   if (loading) {
-    return (
-      <LoaderContainer>
-        <Loader size={60} color={colors.primary} />
-      </LoaderContainer>
-    );
+    return <Loader size={60} color={colors.primary} container />;
   }
 
   return (

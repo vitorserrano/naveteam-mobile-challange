@@ -10,38 +10,12 @@ import * as Yup from 'yup';
 
 import api from '../../services/api';
 
-import Input from '../../components/Input';
-import Loader from '../../components/Loader';
-import Modal from '../../components/Modal';
+import { Input, Modal, Button } from '../../components';
 
-import { Container, Title, Form, Button, ButtonTitle } from './styles';
+import { Container, Title, Form } from './styles';
 
-import { colors } from '../../theme/colors';
-
-interface IForm {
-  id?: string;
-  name: string;
-  admission_date: string;
-  job_role: string;
-  project: string;
-  birthdate: string;
-  url: string;
-}
-
-interface INaver {
-  name: string;
-  admission_date: string;
-  job_role: string;
-  project: string;
-  birthdate: string;
-  url: string;
-}
-
-interface IModal {
-  isVisible: boolean;
-  title?: string;
-  message?: string;
-}
+import { IModal } from '../../helpers/Interfaces';
+import { IForm, INaverSchema } from './interface';
 
 const FormNaver: React.FC = () => {
   const route = useRoute();
@@ -67,7 +41,7 @@ const FormNaver: React.FC = () => {
     url: '' || routeParams?.url,
   };
 
-  const naverSchema: Yup.SchemaOf<INaver> = Yup.object().shape({
+  const naverSchema: Yup.SchemaOf<INaverSchema> = Yup.object().shape({
     name: Yup.string().required('Nome é um campo obrigatório'),
     job_role: Yup.string().required('Cargo é um campo obrigatório'),
     birthdate: Yup.string().required('Idade é um campo obrigatório'),
@@ -195,12 +169,11 @@ const FormNaver: React.FC = () => {
             />
 
             <Button
+              isLoading={loading}
+              title="Entrar"
               onPress={formik.handleSubmit}
               disabled={loading || !formik.isValid}
-            >
-              {loading && <Loader size={22} color={colors.secondary} />}
-              {!loading && <ButtonTitle>Salvar</ButtonTitle>}
-            </Button>
+            />
           </Form>
         )}
       </Formik>
