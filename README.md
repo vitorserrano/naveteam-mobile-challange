@@ -50,17 +50,17 @@ O layout proposto para o desafio está disponível no [Figma](https://www.figma.
 
 ## 📷 Screens
 
-<h1>
-  <img src=".github/login.png" width="350">
-  <img src=".github/index.png" width="350">
-  <img src=".github/drawer.png" width="350">
-  <img src=".github/view.png" width="350">
-  <img src=".github/create.gif" width="350">
-  <img src=".github/edit.gif" width="350">
-  <img src=".github/modal.png" width="350">
-  <img src=".github/modal-delete.png" width="350">
-  <img src=".github/modal-create.png" width="350">
-  <img src=".github/modal-edit.png" width="350">
+<h1 align="center">
+  <img src=".github/login.png" width="220">
+  <img src=".github/index.png" width="220">
+  <img src=".github/drawer.png" width="220">
+  <img src=".github/view.png" width="220">
+  <img src=".github/create.gif" width="220">
+  <img src=".github/edit.gif" width="220">
+  <img src=".github/modal.png" width="220">
+  <img src=".github/modal-delete.png" width="220">
+  <img src=".github/modal-create.png" width="220">
+  <img src=".github/modal-edit.png" width="220">
 </h1>
 
 ## :fire: Pré-requisitos
