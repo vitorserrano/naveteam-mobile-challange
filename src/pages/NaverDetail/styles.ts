@@ -8,8 +8,20 @@ interface IButtonTitle {
   dark?: boolean;
 }
 
+export const LoaderContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Wrapper = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    flexGrow: 1,
+  },
+})``;
+
 export const Container = styled.View`
-  padding: 0 16px 40px 16px;
+  padding: 0 16px 26px 16px;
 `;
 
 export const Image = styled.ImageBackground`

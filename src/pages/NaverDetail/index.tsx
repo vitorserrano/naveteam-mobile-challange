@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+
+import moment from 'moment';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
+import Loader from '../../components/Loader';
 import Modal from '../../components/Modal';
 
 import api from '../../services/api';
 
 import {
+  LoaderContainer,
+  Wrapper,
   Container,
   Image,
   Name,
@@ -18,6 +22,8 @@ import {
   Button,
   ButtonTitle,
 } from './styles';
+
+import { colors } from '../../theme/colors';
 
 interface Params {
   id: string;
@@ -32,6 +38,16 @@ interface INaver {
   project: string;
   birthdate: string;
   url: string;
+}
+
+interface INaverEdit {
+  id?: string;
+  name?: string;
+  admission_date?: string;
+  job_role?: string;
+  project?: string;
+  birthdate?: string;
+  url?: string;
 }
 
 interface IModal {
@@ -59,10 +75,14 @@ const NaverDetail: React.FC = () => {
 
       setNaver(data);
     } catch (error) {
-      console.log(error);
+      setModal({
+        isVisible: true,
+        title: 'Erro',
+        message: 'Não foi possível visualizar este naver.',
+      });
     }
 
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => setLoading(false), 1000);
   };
 
   const handleDeleteNaver = async (id: string) => {
@@ -74,17 +94,33 @@ const NaverDetail: React.FC = () => {
       setModal({
         isVisible: true,
         title: 'Naver excluído',
-        message: 'Naver excluído com sucesso',
+        message: 'Naver excluído com sucesso!',
       });
 
-      navigation.navigate('Navers', { isDeletedNaverDetail: true });
+      setTimeout(() => {
+        setModal({
+          isVisible: false,
+        });
+
+        navigation.navigate('Navers');
+      }, 2000);
+
+      console.log(modal.isVisible);
     } catch (error) {
       setModal({
         isVisible: true,
         title: 'Erro',
-        message: 'Não foi possível excluir esse naver',
+        message: 'Não foi possível excluir esse naver.',
       });
     }
+  };
+
+  const handleNavigateToFormNaver = (currentNaver: INaverEdit) => {
+    navigation.navigate('FormNaver', currentNaver);
+  };
+
+  const handleFormatDate = (date: string) => {
+    return moment.utc(new Date(date)).format('DD/MM/YYYY');
   };
 
   useEffect(() => {
@@ -93,30 +129,25 @@ const NaverDetail: React.FC = () => {
 
   if (loading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <ActivityIndicator size="large" color="#21211" />
-      </View>
+      <LoaderContainer>
+        <Loader size={60} color={colors.primary} />
+      </LoaderContainer>
     );
   }
 
   return (
-    <>
+    <Wrapper>
       <Image source={{ uri: naver.url }} />
+
       <Container>
         <Name>{naver.name}</Name>
         <Description>{naver.job_role}</Description>
 
         <Title>Idade</Title>
-        <Description>{naver.birthdate}</Description>
+        <Description>{handleFormatDate(naver.birthdate)}</Description>
 
         <Title>Tempo de empresa</Title>
-        <Description>{naver.admission_date}</Description>
+        <Description>{handleFormatDate(naver.admission_date)}</Description>
 
         <Title>Projetos que participou</Title>
         <Description>{naver.project}</Description>
@@ -134,12 +165,16 @@ const NaverDetail: React.FC = () => {
               })
             }
           >
-            <FontAwesome5 name="trash" size={18} color="#212121" />
+            <FontAwesome5 name="trash" size={18} color={colors.primary} />
             <ButtonTitle dark>Excluir</ButtonTitle>
           </Button>
 
-          <Button>
-            <FontAwesome5 name="pencil-alt" size={18} color="#fff" />
+          <Button onPress={() => handleNavigateToFormNaver(naver)}>
+            <FontAwesome5
+              name="pencil-alt"
+              size={18}
+              color={colors.secondary}
+            />
             <ButtonTitle>Editar</ButtonTitle>
           </Button>
         </Footer>
@@ -153,7 +188,7 @@ const NaverDetail: React.FC = () => {
           onRequestClose={() => setModal({ isVisible: false })}
         />
       </Container>
-    </>
+    </Wrapper>
   );
 };
 

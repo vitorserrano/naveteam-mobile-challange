@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -27,10 +27,6 @@ import {
 
 import { colors } from '../../theme/colors';
 
-interface Params {
-  isDeletedNaverDetail: boolean;
-}
-
 interface INavers {
   id: string;
   name: string;
@@ -40,6 +36,16 @@ interface INavers {
   project: string;
   birthdate: string;
   url: string;
+}
+
+interface INaverEdit {
+  id?: string;
+  name?: string;
+  admission_date?: string;
+  job_role?: string;
+  project?: string;
+  birthdate?: string;
+  url?: string;
 }
 
 interface IModal {
@@ -52,13 +58,11 @@ interface IModal {
 
 const Navers: React.FC = () => {
   const navigation = useNavigation();
-  const route = useRoute();
-  const routeParams = route.params as Params;
 
   const [navers, setNavers] = useState<INavers[]>([]);
   const [modal, setModal] = useState<IModal>({ isVisible: false });
-  const [isDeleted, setIsDeleted] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const handleLoadNavers = async () => {
     try {
@@ -86,13 +90,13 @@ const Navers: React.FC = () => {
       setModal({
         isVisible: true,
         title: 'Naver excluído',
-        message: 'Naver excluído com sucesso',
+        message: 'Naver excluído com sucesso!',
       });
     } catch (error) {
       setModal({
         isVisible: true,
         title: 'Erro',
-        message: 'Não foi possível excluir esse naver',
+        message: 'Não foi possível excluir esse naver.',
       });
     }
 
@@ -103,9 +107,19 @@ const Navers: React.FC = () => {
     navigation.navigate('NaverDetail', { id });
   };
 
+  const handleNavigateToFormNaver = (naver: INaverEdit) => {
+    navigation.navigate('FormNaver', naver);
+  };
+
   useEffect(() => {
     handleLoadNavers();
-  }, [isDeleted, route]);
+
+    const unsubscribe = navigation.addListener('focus', () => {
+      handleLoadNavers();
+    });
+
+    return unsubscribe;
+  }, [isDeleted, navigation]);
 
   if (loading) {
     return (
@@ -120,7 +134,7 @@ const Navers: React.FC = () => {
       <Header>
         <Title>Navers</Title>
 
-        <Button>
+        <Button onPress={() => handleNavigateToFormNaver({} as INaverEdit)}>
           <ButtonTitle>Adicionar naver</ButtonTitle>
         </Button>
       </Header>
@@ -130,7 +144,7 @@ const Navers: React.FC = () => {
         keyExtractor={(naver: INavers) => String(naver.id)}
         howsVerticalScrollIndicator
         onEndReached={handleLoadNavers}
-        onEndReachedThreshold={0.4}
+        onEndReachedThreshold={0.5}
         numColumns={2}
         columnWrapperStyle={{
           flexWrap: 'wrap',
@@ -164,6 +178,7 @@ const Navers: React.FC = () => {
                 name="pencil-alt"
                 size={18}
                 color={colors.primary}
+                onPress={() => handleNavigateToFormNaver(naver)}
               />
             </Actions>
           </Content>
