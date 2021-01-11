@@ -57,19 +57,25 @@ const FormNaver: React.FC = () => {
   const initialValues: IForm = {
     name: '' || routeParams?.name,
     job_role: '' || routeParams?.job_role,
-    birthdate: '' || handleFormatDate(routeParams?.birthdate),
-    admission_date: '' || handleFormatDate(routeParams?.admission_date),
+    birthdate: routeParams.birthdate
+      ? handleFormatDate(routeParams?.birthdate)
+      : '',
+    admission_date: routeParams.admission_date
+      ? handleFormatDate(routeParams?.admission_date)
+      : '',
     project: '' || routeParams?.project,
     url: '' || routeParams?.url,
   };
 
   const naverSchema: Yup.SchemaOf<INaver> = Yup.object().shape({
     name: Yup.string().required('Nome é um campo obrigatório'),
-    job_role: Yup.string().required('Nome é um campo obrigatório'),
-    birthdate: Yup.string().required('Nome é um campo obrigatório'),
-    admission_date: Yup.string().required('Nome é um campo obrigatório'),
-    project: Yup.string().required('Nome é um campo obrigatório'),
-    url: Yup.string().required('Nome é um campo obrigatório'),
+    job_role: Yup.string().required('Cargo é um campo obrigatório'),
+    birthdate: Yup.string().required('Idade é um campo obrigatório'),
+    admission_date: Yup.string().required(
+      'Tempo de empresa é um campo obrigatório',
+    ),
+    project: Yup.string().required('Projetos é um campo obrigatório'),
+    url: Yup.string().required('Url é um campo obrigatório'),
   });
 
   const jobRoleInputRef = useRef<TextInput>(null);
@@ -91,6 +97,8 @@ const FormNaver: React.FC = () => {
           message: 'Naver editado com sucesso!',
         });
 
+        setLoading(false);
+
         return;
       }
 
@@ -101,6 +109,8 @@ const FormNaver: React.FC = () => {
         title: 'Naver adicionado',
         message: 'Naver adicionado com sucesso!',
       });
+
+      setLoading(false);
     } catch (error) {
       setModal({
         isVisible: true,
@@ -109,9 +119,9 @@ const FormNaver: React.FC = () => {
           routeParams?.id ? `editar` : `adicionar`
         } o naver.`,
       });
-    }
 
-    setLoading(false);
+      setLoading(false);
+    }
   };
 
   return (
