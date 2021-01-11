@@ -65,7 +65,7 @@ O layout proposto para o desafio está disponível no [Figma](https://www.figma.
 
 ## :fire: Pré-requisitos
 
-Para rodar este projeto, é necessário ter instalado na sua máquina as seguntes tecnologias:
+Para rodar este projeto é necessário ter instalado na sua máquina as seguntes tecnologias:
 
 - [Node.js](https://nodejs.org/en/)
 - [Yarn](https://yarnpkg.com/)
@@ -81,10 +81,10 @@ Para rodar este projeto, é necessário ter instalado na sua máquina as segunte
 
 ## 📝 Observações
 
-- Fui utilizado Context para fazer o fluxo de autenticação do aplicativo. Por conta disso, há algumas ações como:
+- Foi utilizado `Context` para fazer o fluxo de **autenticação do aplicativo**. Por conta disso, há algumas ações como:
   - Ao fazer o login no app, o usuário ficará logado até fazer o logout, mesmo reiniciando o mesmo. Isso foi feito para simular um fluxo de app real.
-  - Levando isso em condiseração, também adicionei uma configuração para que após o usuário logar, o token seja definido no header de todas as requisições do app.
-- Foi adicionado Scroll para as telas de Detalhes e de Create/Update de um Naver, para seguir fielmente o layout proposto.
+  - Levando isso em consideração, também adicionei uma configuração para que após o usuário logar, o token seja definido no header de todas as requisições do app.
+- Foi adicionado Scroll para as telas de Detalhes e de Create/Update de um Naver para seguir fielmente o layout proposto.
 
 <h4 align="center">
     Feito com 💜 by <a href="https://www.linkedin.com/in/vitor-serrano/" target="_blank">Vitor Serrano</a>
