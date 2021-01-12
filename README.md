@@ -85,6 +85,7 @@ Para rodar este projeto é necessário ter instalado na sua máquina as seguntes
   - Ao fazer o login no app, o usuário ficará logado até fazer o logout, mesmo reiniciando o mesmo. Isso foi feito para simular um fluxo de app real.
   - Levando isso em consideração, também adicionei uma configuração para que após o usuário logar, o token seja definido no header de todas as requisições do app.
 - Foi adicionado Scroll para as telas de Detalhes e de Create/Update de um Naver para seguir fielmente o layout proposto.
+- As primeiras requisições de algumas rotas demoram um pouco mais do que o normal, creio que seja por conta da API estar hospedada no **Heroku**.
 
 <h4 align="center">
     Feito com 💜 by <a href="https://www.linkedin.com/in/vitor-serrano/" target="_blank">Vitor Serrano</a>
