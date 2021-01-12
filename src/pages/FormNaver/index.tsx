@@ -102,7 +102,22 @@ const FormNaver: React.FC = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={naverSchema}
-        onSubmit={values => handleOnSubmit(values)}
+        onSubmit={(values, { resetForm }) => {
+          handleOnSubmit(values);
+
+          if (!routeParams.id) {
+            resetForm({
+              values: {
+                name: '',
+                job_role: '',
+                birthdate: '',
+                admission_date: '',
+                project: '',
+                url: '',
+              },
+            });
+          }
+        }}
       >
         {formik => (
           <Form>
@@ -167,7 +182,7 @@ const FormNaver: React.FC = () => {
 
             <Button
               isLoading={loading}
-              title="Entrar"
+              title="Salvar"
               onPress={formik.handleSubmit}
               disabled={loading || !formik.isValid}
             />

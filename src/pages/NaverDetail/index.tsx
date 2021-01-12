@@ -71,8 +71,6 @@ const NaverDetail: React.FC = () => {
 
         navigation.navigate('Navers');
       }, 2000);
-
-      console.log(modal.isVisible);
     } catch (error) {
       setModal({
         isVisible: true,

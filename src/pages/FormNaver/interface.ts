@@ -1,4 +1,5 @@
 export interface IForm {
+  initialValues?: string;
   id?: string;
   name: string;
   admission_date: string;
