@@ -6,7 +6,9 @@ export const Wrapper = styled.ScrollView.attrs({
   contentContainerStyle: {
     flexGrow: 1,
   },
-})``;
+})`
+  background: ${({ theme }) => theme.colors.secondary};
+`;
 
 export const Container = styled.View`
   padding: 0 16px 26px 16px;

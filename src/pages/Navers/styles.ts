@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   padding: 28px 16px;
+  background: ${({ theme }) => theme.colors.secondary};
 `;
 
 export const Header = styled.View`
