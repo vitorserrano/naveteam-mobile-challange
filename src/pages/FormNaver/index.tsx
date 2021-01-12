@@ -3,8 +3,6 @@ import { TextInput } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
 
-import moment from 'moment';
-
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -14,8 +12,9 @@ import { Input, Modal, Button } from '../../components';
 
 import { Container, Title, Form } from './styles';
 
-import { IModal } from '../../helpers/Interfaces';
+import { IModal } from '../../types';
 import { IForm, INaverSchema } from './interface';
+import { formatDate } from '../../helpers';
 
 const FormNaver: React.FC = () => {
   const route = useRoute();
@@ -24,30 +23,28 @@ const FormNaver: React.FC = () => {
   const [modal, setModal] = useState<IModal>({ isVisible: false });
   const [loading, setLoading] = useState(false);
 
-  const handleFormatDate = (date: string) => {
-    return moment.utc(new Date(date)).format('DD/MM/YYYY');
-  };
-
   const initialValues: IForm = {
     name: '' || routeParams?.name,
     job_role: '' || routeParams?.job_role,
-    birthdate: routeParams.birthdate
-      ? handleFormatDate(routeParams?.birthdate)
-      : '',
+    birthdate: routeParams.birthdate ? formatDate(routeParams?.birthdate) : '',
     admission_date: routeParams.admission_date
-      ? handleFormatDate(routeParams?.admission_date)
+      ? formatDate(routeParams?.admission_date)
       : '',
     project: '' || routeParams?.project,
     url: '' || routeParams?.url,
   };
 
+  const dateRegex = /^\d{2}([./-])\d{2}\1\d{4}$/;
+
   const naverSchema: Yup.SchemaOf<INaverSchema> = Yup.object().shape({
     name: Yup.string().required('Nome é um campo obrigatório'),
     job_role: Yup.string().required('Cargo é um campo obrigatório'),
-    birthdate: Yup.string().required('Idade é um campo obrigatório'),
-    admission_date: Yup.string().required(
-      'Tempo de empresa é um campo obrigatório',
-    ),
+    birthdate: Yup.string()
+      .matches(dateRegex, 'Data com formato inválido (00/00/0000)')
+      .required('Data de aniversário é um campo obrigatório'),
+    admission_date: Yup.string()
+      .matches(dateRegex, 'Data com formato inválido (00/00/0000)')
+      .required('Data de admissão é um campo obrigatório.'),
     project: Yup.string().required('Projetos é um campo obrigatório'),
     url: Yup.string().required('Url é um campo obrigatório'),
   });
@@ -131,8 +128,8 @@ const FormNaver: React.FC = () => {
             <Input
               ref={birthdateInputRef}
               name="birthdate"
-              label="Idade"
-              placeholder="Idade"
+              label="Data de aniversário"
+              placeholder="Data de aniversário (00/00/0000)"
               returnKeyType="next"
               onSubmitEditing={() => admissionDateInputRef.current?.focus()}
               {...formik}
@@ -141,8 +138,8 @@ const FormNaver: React.FC = () => {
             <Input
               ref={admissionDateInputRef}
               name="admission_date"
-              label="Tempo de empresa"
-              placeholder="Tempo de empresa"
+              label="Data de admissão"
+              placeholder="Data de admissão (00/00/0000)"
               returnKeyType="next"
               onSubmitEditing={() => projectInputRef.current?.focus()}
               {...formik}

@@ -23,7 +23,7 @@ import {
   Actions,
 } from './styles';
 
-import { INaver, INaverEdit, IModal } from '../../helpers/Interfaces';
+import { INaver, INaverEdit, IModal } from '../../types';
 import { colors } from '../../theme/colors';
 
 const Navers: React.FC = () => {

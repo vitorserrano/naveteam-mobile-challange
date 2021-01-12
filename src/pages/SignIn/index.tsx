@@ -6,14 +6,13 @@ import * as Yup from 'yup';
 
 import { useAuth } from '../../context/auth';
 
-import { Input, Modal, Loader, Button } from '../../components';
+import { Input, Modal, Button } from '../../components';
 
 import blackLogoLogoImage from '../../assets/img/blackLogo.png';
 import { Container, Logo } from './styles';
 
-import { IModal } from '../../helpers/Interfaces';
+import { IModal } from '../../types';
 import { IForm, User } from './interface';
-import { colors } from '../../theme/colors';
 
 const SignIn: React.FC = () => {
   const initialValues: IForm = { email: '', password: '' };

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import moment from 'moment';
-
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { Loader, Modal } from '../../components';
@@ -21,8 +19,10 @@ import {
   ButtonTitle,
 } from './styles';
 
-import { INaver, IModal } from '../../helpers/Interfaces';
+import { INaver, IModal } from '../../types';
 import { IParams } from './interface';
+import { formatDateDifference } from '../../helpers';
+
 import { colors } from '../../theme/colors';
 
 const NaverDetail: React.FC = () => {
@@ -86,10 +86,6 @@ const NaverDetail: React.FC = () => {
     navigation.navigate('FormNaver', currentNaver);
   };
 
-  const handleFormatDate = (date: string) => {
-    return moment.utc(new Date(date)).format('DD/MM/YYYY');
-  };
-
   useEffect(() => {
     handleShowNaver();
 
@@ -113,10 +109,10 @@ const NaverDetail: React.FC = () => {
         <Description>{naver.job_role}</Description>
 
         <Title>Idade</Title>
-        <Description>{handleFormatDate(naver.birthdate)}</Description>
+        <Description>{formatDateDifference(naver.birthdate)}</Description>
 
         <Title>Tempo de empresa</Title>
-        <Description>{handleFormatDate(naver.admission_date)}</Description>
+        <Description>{formatDateDifference(naver.admission_date)}</Description>
 
         <Title>Projetos que participou</Title>
         <Description>{naver.project}</Description>
