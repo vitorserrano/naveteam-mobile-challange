@@ -107,10 +107,14 @@ const NaverDetail: React.FC = () => {
         <Description>{naver.job_role}</Description>
 
         <Title>Idade</Title>
-        <Description>{formatDateDifference(naver.birthdate)}</Description>
+        <Description>
+          {formatDateDifference(naver.birthdate, 'birthdate')}
+        </Description>
 
         <Title>Tempo de empresa</Title>
-        <Description>{formatDateDifference(naver.admission_date)}</Description>
+        <Description>
+          {formatDateDifference(naver.admission_date, 'admission_date')}
+        </Description>
 
         <Title>Projetos que participou</Title>
         <Description>{naver.project}</Description>
