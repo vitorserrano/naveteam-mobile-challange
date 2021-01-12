@@ -1,7 +1,8 @@
 import React, { forwardRef } from 'react';
 import { TextInput } from 'react-native';
 
-import { Label, DefaultInput, ErrorMessage } from './styles';
+import Label from '../Label';
+import { DefaultInput, ErrorMessage } from './styles';
 
 type InputProps = React.ComponentProps<typeof DefaultInput>;
 
@@ -23,7 +24,7 @@ const Input: React.ForwardRefRenderFunction<TextInput, InputProps> = (
 
   return (
     <>
-      <Label>{label}</Label>
+      <Label title={label} />
 
       <DefaultInput
         ref={ref}

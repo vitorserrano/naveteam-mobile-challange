@@ -4,19 +4,6 @@ interface IDefaultInputProps {
   isError: boolean;
 }
 
-export const Label = styled.Text`
-  ${({ theme }) => css`
-    font-family: ${theme.fonts.semibold};
-    color: ${theme.colors.primary};
-  `}
-
-  align-self: flex-start;
-  margin-top: 32px;
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: 600;
-`;
-
 export const DefaultInput = styled.TextInput.attrs(({ theme }) => ({
   placeholderTextColor: theme.colors.placeholder,
 }))<IDefaultInputProps>`
